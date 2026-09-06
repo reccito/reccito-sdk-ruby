@@ -1,0 +1,21 @@
+name: Build
+
+# Build-only: verifies the committed generated client still installs and
+# loads. This SDK is machine-generated from Reccito's public OpenAPI
+# spec -- do not hand-edit generated files.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - run: bundle exec ruby -Ilib -e "require 'reccito_sdk'; puts ReccitoSdk::VERSION"
